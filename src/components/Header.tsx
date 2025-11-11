@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { X } from 'lucide-react'  // Optional: Install lucide-react for X icon (`npm i lucide-react`); fallback to text if skipped
+import { X } from 'lucide-react'  // Optional: npm i lucide-react; fallback to ×
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -32,14 +32,23 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  // Prevent body scroll when menu open
+  // Lock body scroll and position for full coverage
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.width = '100%'
+      document.documentElement.style.overflow = 'hidden'  // Extra for html
     } else {
       document.body.style.overflow = 'unset'
+      document.body.style.position = 'static'
+      document.documentElement.style.overflow = 'unset'
     }
-    return () => { document.body.style.overflow = 'unset' }
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.body.style.position = 'static'
+      document.documentElement.style.overflow = 'unset'
+    }
   }, [mobileMenuOpen])
 
   const scrollToSection = (id: string) => {
@@ -148,19 +157,19 @@ export default function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 bg-light-sage/98 backdrop-blur-sm z-[60] md:hidden flex flex-col"  // Higher z-index, full coverage, no overlaps
+            className="fixed inset-0 bg-light-sage z-[100] md:hidden flex flex-col"  // Full opaque, highest z-index
           >
-            {/* Close Button - Top-right, no overlap */}
+            {/* Close Button */}
             <button
               onClick={toggleMobileMenu}
               className="self-end p-4 text-charcoal hover:text-soft-gold transition-colors duration-300"
               aria-label="Close menu"
             >
-              <X className="w-8 h-8" />  {/* Or use text: × */}
+              <X className="w-8 h-8" />  {/* Or × */}
             </button>
 
-            {/* Centered Nav Items - Better spacing, touch-friendly */}
-            <div className="flex flex-col items-center justify-center h-screen space-y-12">
+            {/* Centered Nav - Fills exact height, no push/overflow */}
+            <div className="flex flex-col items-center justify-center flex-1 space-y-8">
               {navLinks.map((link, index) => (
                 <motion.button
                   key={link.id}
@@ -168,7 +177,7 @@ export default function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 + 0.2, duration: 0.4 }}
                   onClick={() => scrollToSection(link.id)}
-                  className="text-4xl font-heading text-charcoal hover:text-soft-gold transition-all duration-300 px-6 py-3 rounded-xl bg-cream/20 hover:bg-soft-gold/10 min-w-[200px] text-center leading-relaxed"  // Larger, rounded, no cutoff
+                  className="text-3xl font-heading text-charcoal hover:text-soft-gold transition-all duration-300 px-6 py-3 rounded-xl bg-white/20 hover:bg-soft-gold/10 min-w-[180px] text-center leading-relaxed"
                 >
                   {link.name}
                 </motion.button>
