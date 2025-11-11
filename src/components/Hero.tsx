@@ -53,7 +53,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 50, scale: 0.9 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative md:-ml-8 md:translate-y-8"  // Asymmetric overlap into text side for modern flow
+          className="relative md:-ml-8 md:translate-y-8"  
         >
           <div className="relative w-full h-96 md:h-[500px] max-w-md mx-auto md:mx-0">
             <Image
