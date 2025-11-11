@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { X } from 'lucide-react'  // Optional: npm i lucide-react; fallback to ×
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -16,44 +15,30 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-
       setScrolled(currentScrollY > 50)
-
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false)
       } else {
         setIsVisible(true)
       }
-
       setLastScrollY(currentScrollY)
     }
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  // Lock body scroll and position for full coverage
+  // Body scroll lock
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden'
-      document.body.style.position = 'fixed'
-      document.body.style.width = '100%'
-      document.documentElement.style.overflow = 'hidden'  // Extra for html
     } else {
       document.body.style.overflow = 'unset'
-      document.body.style.position = 'static'
-      document.documentElement.style.overflow = 'unset'
     }
-    return () => {
-      document.body.style.overflow = 'unset'
-      document.body.style.position = 'static'
-      document.documentElement.style.overflow = 'unset'
-    }
+    return () => { document.body.style.overflow = 'unset' }
   }, [mobileMenuOpen])
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false)
-
     if (typeof window !== 'undefined') {
       if (window.location.pathname === '/') {
         const element = document.getElementById(id)
@@ -75,12 +60,17 @@ export default function Header() {
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen)
 
+  const hamburgerVariants = {
+    closed: { opacity: 1 },
+    open: { opacity: 0 },
+  }
+
   return (
     <motion.header
       initial={{ y: 0 }}
       animate={{ y: isVisible ? 0 : -100 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-sm border-b border-light-sage/30 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-300 border-b border-light-sage/30 ${
         scrolled ? 'py-3 shadow-lg' : 'py-4'
       }`}
       style={{ 
@@ -118,72 +108,92 @@ export default function Header() {
           ))}
         </ul>
 
-        <button
+        {/* Mobile Hamburger Button */}
+        <motion.button
+          className="md:hidden p-3 bg-cream border border-light-sage rounded-xl shadow-lg z-50"
           onClick={toggleMobileMenu}
-          className="md:hidden text-charcoal relative w-8 h-8 flex flex-col justify-center items-center gap-1.5 rounded-full p-1"
           aria-label="Toggle menu"
         >
-          <motion.span
-            animate={{
-              rotate: mobileMenuOpen ? 45 : 0,
-              y: mobileMenuOpen ? 1 : 0,
-            }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-0.5 bg-charcoal rounded-sm origin-center"
-          />
-          <motion.span
-            animate={{
-              opacity: mobileMenuOpen ? 0 : 1,
-              scaleX: mobileMenuOpen ? 0 : 1,
-            }}
-            transition={{ duration: 0.2 }}
-            className="w-full h-0.5 bg-charcoal rounded-sm origin-center"
-          />
-          <motion.span
-            animate={{
-              rotate: mobileMenuOpen ? -45 : 0,
-              y: mobileMenuOpen ? -1 : 0,
-            }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-0.5 bg-charcoal rounded-sm origin-center"
-          />
-        </button>
+          <motion.div
+            className="w-6 h-5 flex flex-col justify-between relative"
+            initial={false}
+            animate={mobileMenuOpen ? 'open' : 'closed'}
+          >
+            <motion.span
+              variants={{
+                closed: { rotate: 0, y: 0 },
+                open: { rotate: 45, y: 8 },
+              }}
+              className="absolute w-full h-0.5 bg-charcoal rounded-full origin-center"
+            />
+            <motion.span
+              variants={hamburgerVariants}
+              className="w-full h-0.5 bg-charcoal rounded-full"
+            />
+            <motion.span
+              variants={{
+                closed: { rotate: 0, y: 0 },
+                open: { rotate: -45, y: -8 },
+              }}
+              className="absolute w-full h-0.5 bg-charcoal rounded-full origin-center"
+            />
+          </motion.div>
+        </motion.button>
       </nav>
 
+      {/* Mobile Menu - Partial Side Panel */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 bg-light-sage z-[100] md:hidden flex flex-col"  // Full opaque, highest z-index
-          >
-            {/* Close Button */}
-            <button
+          <>
+            {/* Backdrop - Dim left side, click to close */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={toggleMobileMenu}
-              className="self-end p-4 text-charcoal hover:text-soft-gold transition-colors duration-300"
-              aria-label="Close menu"
-            >
-              <X className="w-8 h-8" />  {/* Or × */}
-            </button>
+              className="fixed inset-0 bg-charcoal/50 z-40 md:hidden"
+            />
 
-            {/* Centered Nav - Fills exact height, no push/overflow */}
-            <div className="flex flex-col items-center justify-center flex-1 space-y-8">
-              {navLinks.map((link, index) => (
-                <motion.button
-                  key={link.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.2, duration: 0.4 }}
-                  onClick={() => scrollToSection(link.id)}
-                  className="text-3xl font-heading text-charcoal hover:text-soft-gold transition-all duration-300 px-6 py-3 rounded-xl bg-white/20 hover:bg-soft-gold/10 min-w-[180px] text-center leading-relaxed"
+            {/* Partial Opaque Panel - Right side only */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-64 z-50 md:hidden border-l border-light-sage/50 shadow-2xl"
+              style={{ backgroundColor: '#E8F5E8' }}  // Solid opaque light sage hex
+            >
+              <div className="flex flex-col h-full p-8 pt-20">
+                {/* Close X */}
+                <button
+                  onClick={toggleMobileMenu}
+                  className="self-end text-charcoal text-2xl hover:text-soft-gold transition-colors"
                 >
-                  {link.name}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+                  ×
+                </button>
+
+                <nav className="flex-1">
+                  <ul className="space-y-6">
+                    {navLinks.map((link, index) => (
+                      <motion.li
+                        key={link.id}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <button
+                          onClick={() => scrollToSection(link.id)}
+                          className="block w-full text-left text-xl font-medium text-charcoal hover:text-soft-gold transition-colors py-2 rounded-md hover:bg-cream"
+                        >
+                          {link.name}
+                        </button>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.header>
