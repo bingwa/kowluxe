@@ -11,9 +11,9 @@ export default function ProductShowcase() {
   })
 
   const features = [
-    { icon: FaLeaf, title: 'Natural Ingredients', desc: 'Pure, organic oils that nourish without harsh chemicals. Safe for all hair types.' },
-    { icon: FaBolt, title: 'Fast Results', desc: 'Visible improvement in hair strength and shine within the first week of use.' },
-    { icon: FaUsers, title: 'Family Safe', desc: 'Gentle formula suitable for women, men, and children. The whole family can benefit.' },
+    { icon: FaLeaf, title: 'Natural Ingredients', desc: 'JOJOBA OIL, AVOCADO OIL, EXTRA VIRGIN OLIVE OIL, GRAPESEED OIL, COCONUT OIL, LAVENDER OIL, TEA TREE OIL, ROSEMARY OIL, PEPPERMINT OIL, CHAMOMILE OIL, CEDARWOOD OIL, WHITE TEA OIL, NETTLE SEEDS, LICORICE ROOT, FENUGREEK POWDER, PEPPERMINT LEAF, TULSI, BURDOCK ROOT, NEEM POWDER, MUSTARD SEEDS, MARSHMALLOW ROOT, HIBISCUS LEAF, ASHWAGANDHA ROOT, ROSEMARY LEAF AND MORINGA LEAF' },
+    { icon: FaBolt, title: 'Easy to Use', desc: 'Section your hair into 4 pieces, apply the oil on the scalp into each section and massage thoroughly, safe for daily usage, made with 100% Pure and natural ingredients.' },
+    { icon: FaUsers, title: 'Safe for All', desc: 'Gentle formula suitable for women, men, and children. The whole family can benefit.' },
   ]
 
   return (

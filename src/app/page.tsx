@@ -1,7 +1,7 @@
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import ProductShowcase from '@/components/ProductShowcase'
-import ShopSection from '@/components/ShopSection'  // Add this import
+import ShopSection from '@/components/ShopSection'  
 import Reviews from '@/components/Reviews'
 import Contact from '@/components/Contact'
 

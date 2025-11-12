@@ -55,6 +55,7 @@ export default function Header() {
     { name: 'About', id: 'about' },
     { name: 'Products', id: 'products' },
     { name: 'Reviews', id: 'reviews' },
+    { name: 'Shop', id: 'shopsection' },
     { name: 'Contact', id: 'contact' },
   ]
 
@@ -85,10 +86,10 @@ export default function Header() {
             aria-label="Home"
           >
             <Image
-              src="/logo.png"
+              src="/log.png"
               alt="kowluxé"
-              width={200}
-              height={60}
+              width={350}
+              height={70}
               className="h-12 md:h-14 lg:h-16 w-auto drop-shadow-md"
               priority
             />
