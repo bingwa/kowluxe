@@ -34,7 +34,7 @@ export default function Hero() {
           
           <div className="flex gap-4 flex-wrap">
             <button
-              onClick={() => scrollToSection('shopsection')}
+              onClick={() => scrollToSection('shop')}
               className="btn-primary px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               Shop Now

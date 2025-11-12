@@ -55,7 +55,7 @@ export default function Header() {
     { name: 'About', id: 'about' },
     { name: 'Products', id: 'products' },
     { name: 'Reviews', id: 'reviews' },
-    { name: 'Shop', id: 'shopsection' },
+    { name: 'Shop', id: 'shop' },
     { name: 'Contact', id: 'contact' },
   ]
 
