@@ -14,17 +14,17 @@ export default function ShopSection() {
   const sizes = [
     {
       size: '10oz',
-      price: 'KSh 2,500',
+      price: '',
       description: 'Full-size bottle for regular use - lasts 3-4 months of daily application',
     },
     {
       size: '8oz',
-      price: 'KSh 1,800',
+      price: '',
       description: 'Perfect medium size for travel and consistent daily use - lasts 2-3 months',
     },
     {
       size: '5oz',
-      price: 'KSh 1,200',
+      price: '',
       description: 'Compact travel size for on-the-go nourishment - lasts 1-2 months',
     },
   ];
