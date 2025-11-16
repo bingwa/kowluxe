@@ -115,7 +115,7 @@ export default function ShopSection() {
               className="text-center pt-4"
             >
               <Link 
-                href="https://your-shopify-store.myshopify.com/collections/all"  // Update with your Shopify URL
+                href="https://uvxkfy-0w.myshopify.com/collections/all" 
                 className="btn-primary inline-block px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
               >
                 Shop All Products
